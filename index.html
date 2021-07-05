@@ -1,21 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <title>Just OCR it!</title>
         <link rel="stylesheet" href="main.css">
+        <meta charset="utf-8"/>
     </head>
 
     <body id="body">
 
-        <div class="center">
+        <div class="none">
         
-            <div id="ocr-content">IMAGE AND TEXTBOX GOES HERE</div>
+            <div id="ocr-content">
+                <canvas id="image-area-select" width="500px" height="500px"></canvas>
+                <textarea id="ocr-text" cols="20" rows="8" disabled>asdfasdfasdfasdf</textarea>
+            </div>
             
             <div id="file-select">
-                <input type="file" accept="image/png, image/jpeg" onchange="makeBlue()">
+                <input id="file-input" type="file" accept="image/png, image/jpeg" onchange="loadImage()">
             </div>
             
         </div>
+
+    <script src="ocr-canvas.js"></script>
 
     <script>
     
