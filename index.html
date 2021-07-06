@@ -11,8 +11,13 @@
         <div class="none">
         
             <div id="ocr-content">
-                <canvas id="image-area-select" width="500px" height="500px"></canvas>
-                <textarea id="ocr-text" cols="20" rows="8" disabled>asdfasdfasdfasdf</textarea>
+            
+                <div id="canvas-container">
+                    <canvas id="image-layer" width="500px" height="500px"></canvas>
+                    <canvas id="crop-layer" width="500px" height="500px"></canvas>
+                </div>
+                
+                <textarea id="ocr-text" cols="30" rows="16" disabled>Text will appear here.</textarea>
             </div>
             
             <div id="file-select">
@@ -22,14 +27,6 @@
         </div>
 
     <script src="ocr-canvas.js"></script>
-
-    <script>
-    
-    function makeBlue() {
-        document.body.style.backgroundColor = "lightblue";
-    }
-    
-    </script>
 
     </body>
 </html>

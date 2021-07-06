@@ -8,14 +8,33 @@ body {
     width: 50%;
 }
 
-#ocr-content {
-    
+#canvas-container {
+    position:relative;
+    height:500px;
+    width:500px;
+    float:left;
 }
 
-#image-area-select {
+#image-layer {
+    position:absolute;
+    left:0px;
+    top:0px;
+    z-index:0;
+}
 
+#crop-layer {
+    position:absolute;
+    left:0px;
+    top:0px;
+    z-index:1;
 }
 
 #ocr-text {
+    position:relative; 
+    #left:500px; 
+    #margin-left:10px;
+}
 
+#file-select {
+    position:relative;
 }
