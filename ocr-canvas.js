@@ -25,16 +25,25 @@ imageCtx.stroke();
 
 cropCtx.strokeStyle = "#FF0000";
 cropCtx.moveTo(canvasWidth,0);
-cropCtx.lineTo(0,canvasHeight);
+cropCtx.strokeRect(0,0, canvasWidth, canvasHeight);
 cropCtx.stroke();
 
-cropCanvas.onclick = cropClick
+var dragging = undefined;
+
+cropCanvas.addEventListener('mousedown', cropMouseDown);
+cropCanvas.addEventListener('mousemove', cropMouseMove);
+cropCanvas.addEventListener('mouseup', cropMouseUp);
 
 // setup points for crop
-var topLeft     = new Point(0,0)
-var bottomLeft  = new Point(0,canvasHeight)
-var topRight    = new Point(canvasWidth,0)
-var bottomRight = new Point(canvasWidth,canvasHeight)
+var topLeft     = new Point(0,0);
+var bottomLeft  = new Point(0,canvasHeight);
+var topRight    = new Point(canvasWidth,0);
+var bottomRight = new Point(canvasWidth,canvasHeight);
+
+// list of points
+var points = [topLeft, topRight, bottomLeft, bottomRight];
+// dict of points and the other point they should move when their X or Y is moved
+var adjacentPoints = [[bottomLeft, topRight], [bottomRight, topLeft], [topLeft, bottomRight], [topRight, bottomLeft]]
 
 
 function loadImage() {
@@ -52,7 +61,7 @@ function loadImage() {
             var gappedEdge = img.height / divisor;
             
             // center the image
-            var pad = (canvasHeight - gappedEdge) / 2
+            var pad = (canvasHeight - gappedEdge) / 2;
             
             imageCtx.drawImage(img, 0, pad, canvasWidth, gappedEdge);
         } else {
@@ -60,15 +69,66 @@ function loadImage() {
             var gappedEdge = img.width / divisor;
             
             // center the image
-            var pad = (canvasWidth - gappedEdge) / 2
+            var pad = (canvasWidth - gappedEdge) / 2;
             
             imageCtx.drawImage(img, pad, 0, gappedEdge, canvasHeight);
         }        
     }
     
-    img.src = URL.createObjectURL(file)
+    img.src = URL.createObjectURL(file);
 }
 
-function cropClick(event) {
-    alert("Crop clicked.");
+function cropMouseDown(event) {
+    // check if we're clicking near a point
+    const POINT_RADIUS = 20;
+    
+    var x = event.clientX - cropCanvas.getBoundingClientRect().left;
+    var y = event.clientY - cropCanvas.getBoundingClientRect().top;
+    
+    
+    for (let i=0; i<points.length; i++) {
+        // get distance
+        var d = distance(x, y, points[i].x, points[i].y);
+        
+        //console.log(`$point index:${i}\nhandle pos: (${points[i].x}, ${points[i].y})\nclick pos: (${x}, ${y})\ndistance: ${d}`)
+        
+        // if distance is within POINT_RADIUS of the point
+        // grab it
+        if (d <= POINT_RADIUS) {
+            console.log("set dragging to" + i);
+            dragging = i;
+        }
+    }
+}
+
+function cropMouseMove(event) {
+    if (dragging != undefined) {
+        // get click point
+        var x = event.clientX - cropCanvas.getBoundingClientRect().left;
+        var y = event.clientY - cropCanvas.getBoundingClientRect().top;
+        
+        // get the point we're dragging
+        drag_point = points[dragging];
+        
+        // update point we're dragging
+        drag_point.x = x;
+        drag_point.y = y;
+        
+        // update adjacent points
+        adjacentPoints[dragging][0].x = x;
+        adjacentPoints[dragging][1].y = y;
+        
+        cropCtx.clearRect(0,0,canvasWidth,canvasHeight);
+        cropCtx.beginPath();
+        cropCtx.strokeRect(topLeft.x, topLeft.y, bottomRight.x - topLeft.x, bottomRight.y - topLeft.y);
+    }
+}
+
+function cropMouseUp(event) {
+    console.log("cleared dragging")
+    dragging = undefined;
+}
+
+function distance(x1,y1,x2,y2) {
+    return Math.sqrt(Math.abs((x2-x1)**2 + (y2-y1)**2));
 }

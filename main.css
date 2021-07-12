@@ -8,6 +8,11 @@ body {
     width: 50%;
 }
 
+.canvas {
+    left:0;
+    right:0;
+}
+
 #canvas-container {
     position:relative;
     height:500px;
