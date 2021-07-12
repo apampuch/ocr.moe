@@ -19,14 +19,22 @@
                 
                 <textarea id="ocr-text" cols="30" rows="16" disabled>Text will appear here.</textarea>
             </div>
-            <form>
+            <form action="upload.php" method="post" enctype="multipart/form-data">
                 <div id="file-select">
-                    <input id="file-input" type="file" accept="image/png, image/jpeg" onchange="loadImage()">
+                    <input id="file-input" type="file" accept="image/png, image/jpeg" onchange="uploadCallback()">
                 </div>
             </form>
         </div>
 
     <script src="ocr-canvas.js"></script>
+    <script src="upload.js"></script>
+    <script>
+        function uploadCallback() {
+            uploadImage();
+            loadImage();
+        }
+    </script>
 
     </body>
 </html>
+
