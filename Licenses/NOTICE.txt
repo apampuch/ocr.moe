@@ -1,0 +1,1 @@
+This project uses Tesseract, developed by Google, licensed under the Apache License 2.0. A copy of this license has been included.
