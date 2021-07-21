@@ -95,7 +95,6 @@ function cropMouseDown(event) {
         // if distance is within POINT_RADIUS of the point
         // grab it
         if (d <= POINT_RADIUS) {
-            console.log("set dragging to" + i);
             dragging = i;
         }
     }
@@ -125,7 +124,6 @@ function cropMouseMove(event) {
 }
 
 function cropMouseUp(event) {
-    console.log("cleared dragging")
     dragging = undefined;
 }
 

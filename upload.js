@@ -13,13 +13,40 @@ function uploadImage() {
                alert('something else other than 200 was returned');
            }
         }
-    };
+    };  
     
+    // make an image object from uploaded image to check dimensions
+    var uploadedFile = document.getElementById("file-input").files[0];
+    var reader = new FileReader();
+    var img = new Image();
     
+    // read the file we just uploaded, give it a url, then set an image's src to the 
+    // url, all so we can read the dimensions of the image
+    reader.onload = function(e) {
     
-    var formData = new FormData();
-    formData.append("image", document.getElementById("file-input").files[0]);
+        img.onload = function() {
+            // make the form data and add the image
+            var formData = new FormData();
+            formData.append("image", uploadedFile);
+            formData.append("image-width", img.width);
+            formData.append("image-height", img.height);
+            
+            // add crop data
+            formData.append("crop-width", bottomRight.x - topLeft.x);
+            formData.append("crop-height", bottomRight.y - topLeft.y);
+            formData.append("crop-x", topLeft.x);
+            formData.append("crop-y", topLeft.y);
+            
+            // add canvas size in case it changes
+            formData.append("canvas-width", document.getElementById("crop-layer").width);
+            formData.append("canvas-height", document.getElementById("crop-layer").height);
+            
+            req.open("POST", "upload.php");
+            req.send(formData);
+        }
+        
+        img.src = e.target.result;
+    }
     
-    req.open("POST", "upload.php");
-    req.send(formData);
+    reader.readAsDataURL(uploadedFile);
 }
