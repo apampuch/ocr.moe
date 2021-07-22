@@ -1,3 +1,19 @@
+function remove_image() {
+    var req = new XMLHttpRequest();
+    
+    req.onreadystatechange = function() {
+        if (req.readyState == XMLHttpRequest.DONE) {
+            document.getElementById("ocr-text").value = req.responseText; 
+        }
+    };
+    
+    var formData = new FormData();
+    formData.append("image-id", sessionStorage.getItem("image-id"));
+    
+    req.open("POST", "delete.php", false);
+    req.send(formData);
+}
+
 function submit() {
     var req = new XMLHttpRequest();
     

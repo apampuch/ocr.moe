@@ -35,7 +35,12 @@
         function uploadCallback() {
             uploadImage();
             loadImage();
+        };
+        window.onbeforeunload = function(event) {
+            remove_image();
+            //return "";
         }
+
     </script>
 
     </body>
