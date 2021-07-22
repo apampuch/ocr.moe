@@ -1,10 +1,38 @@
+function submit() {
+    var req = new XMLHttpRequest();
+    
+    req.onreadystatechange = function() {
+        if (req.readyState == XMLHttpRequest.DONE) {
+            document.getElementById("ocr-text").value = req.responseText;
+        }
+    };
+    
+    var formData = new FormData();
+    formData.append("image-id", sessionStorage.getItem("image-id"));
+    
+    // add crop data
+    formData.append("crop-width", bottomRight.x - topLeft.x);
+    formData.append("crop-height", bottomRight.y - topLeft.y);
+    formData.append("crop-x", topLeft.x);
+    formData.append("crop-y", topLeft.y);
+    
+    // add canvas size in case it changes later in development
+    formData.append("canvas-width", document.getElementById("crop-layer").width);
+    formData.append("canvas-height", document.getElementById("crop-layer").height);
+    
+    req.open("POST", "ocr.php");
+    req.send(formData);
+}
+
 function uploadImage() {
     var req = new XMLHttpRequest();
     
     req.onreadystatechange = function() {
         if (req.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
            if (req.status == 200) {
-               alert(req.responseText);
+               // trim the response text because the newline at the end of a PHP file causes problems with echo
+               sessionStorage.setItem("image-id", req.responseText.trim());
+               console.log(req.responseText.trim());
            }
            else if (req.status == 400) {
               alert('There was an error 400');
@@ -37,9 +65,7 @@ function uploadImage() {
             formData.append("crop-x", topLeft.x);
             formData.append("crop-y", topLeft.y);
             
-            // add canvas size in case it changes
-            formData.append("canvas-width", document.getElementById("crop-layer").width);
-            formData.append("canvas-height", document.getElementById("crop-layer").height);
+
             
             req.open("POST", "upload.php");
             req.send(formData);
