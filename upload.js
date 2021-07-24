@@ -15,6 +15,7 @@ function remove_image() {
 }
 
 function submit() {
+
     var req = new XMLHttpRequest();
     
     req.onreadystatechange = function() {
@@ -41,6 +42,9 @@ function submit() {
 }
 
 function uploadImage() {
+    // remove the old image first
+    remove_image();
+
     var req = new XMLHttpRequest();
     
     req.onreadystatechange = function() {
