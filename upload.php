@@ -7,7 +7,7 @@ else {
     $temp_name = str_replace("/tmp/php", "", $_FILES['image']['tmp_name']);
     
     // move the file to the images folder
-    move_uploaded_file($_FILES['image']['tmp_name'], 'images/' . $temp_name);
+    move_uploaded_file($_FILES['image']['tmp_name'], '/home/ocr_images/' . $temp_name);
     
     echo $temp_name;
 

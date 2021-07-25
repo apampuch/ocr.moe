@@ -1,5 +1,5 @@
 <?php
-    $imagePath = getcwd() . "/images/" . $_POST["image-id"];
+    $imagePath = "/home/ocr_images/" . $_POST["image-id"];
 
 
 //    $debug_path = "/home/weanoob/Documents/ocr.moe/images/". $_POST["image-id"];

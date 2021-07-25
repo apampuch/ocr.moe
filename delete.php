@@ -1,3 +1,3 @@
 <?php
-unlink("images/" . $_POST["image-id"]);
+unlink("/home/ocr_images/" . $_POST["image-id"]);
 ?>
