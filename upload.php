@@ -12,7 +12,7 @@ else {
     // move the file to the images folder
     move_uploaded_file($_FILES['image']['tmp_name'], '/home/ocr_images/' . $temp_name);
     
-    echo "";
+    echo $temp_name;
 
     //$command = "convert-im6 images/" . $temp_name . " -crop " . $cropWidth . "x" . $cropHeight . "+" . $cropX . "+" . $cropY . " - | tesseract - -";    
 }

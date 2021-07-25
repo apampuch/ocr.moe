@@ -50,9 +50,19 @@ function uploadImage() {
     req.onreadystatechange = function() {
         if (req.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
            if (req.status == 200) {
-               // trim the response text because the newline at the end of a PHP file causes problems with echo
-               sessionStorage.setItem("image-id", req.responseText.trim());
-               document.getElementById("ocr-text").value = req.responseText.trim();
+           
+                // trim the response text because the newline at the end of a PHP file causes problems with echo
+                if (req.responseText.trim().startsWith("Error:")) {
+                    document.getElementById("ocr-text").value = req.responseText.trim();
+                    
+                    // remove the image so there's nothing misleading going on in the user's mind
+                    var imageCanvas = document.getElementById("image-layer");
+                    
+                    imageCanvas.getContext("2d").clearRect(0, 0, imageCanvas.width, imageCanvas.height);
+                } else {
+                    sessionStorage.setItem("image-id", req.responseText.trim());
+                }
+                
            }
            else if (req.status == 400) {
               alert('There was an error 400');
