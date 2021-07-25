@@ -52,7 +52,7 @@ function uploadImage() {
            if (req.status == 200) {
                // trim the response text because the newline at the end of a PHP file causes problems with echo
                sessionStorage.setItem("image-id", req.responseText.trim());
-               console.log(req.responseText.trim());
+               document.getElementById("ocr-text").value = req.responseText.trim();
            }
            else if (req.status == 400) {
               alert('There was an error 400');
