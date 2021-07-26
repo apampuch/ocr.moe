@@ -13,6 +13,11 @@ body {
     right:0;
 }
 
+.down500 {
+    position:relative;
+    top:500px;
+}
+
 #canvas-container {
     position:relative;
     height:500px;
@@ -36,8 +41,7 @@ body {
 
 #ocr-text {
     position:relative; 
-    #left:500px; 
-    #margin-left:10px;
+    /*margin-left:10px;*/
 }
 
 #file-select {
